@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewData["Title"] = "List";
+    System.Diagnostics.Debug.WriteLine("VIEW - Rendering ");
+}
+
+<h1>Book Database</h1>
+
+<section>
+    <h2>List of Books</h2>
+    @if (ViewBag.Books.Count > 0)
+    {
+        <ul>
+            @foreach (Book book in ViewBag.Books)
+            {
+                <li>@(book.Title) @(book.PublicationDate)@(book.DueDate)</li>
+            }
+        </ul>
+    }
+</section>
+<section>
+    <h2>Create a Book</h2>
+    <form action="/Book/Create" method="get">
+        <label for="_id">ID</label>
+        <input id=" _id" type="number" name="_id" /> <br />
+        <label for="title">Title</label>
+        <input id="title" type="text" name="_title" value="" /><br />
+        <label for="author">Author</label>
+        <input id="author" type="text" name="_author" value="" /><br />
+
+        <label for="_publicationdate">Publish Date:</label>
+        <input type="datetime" id="_publicationdate" name="_publicationdate"
+               value="2020-11-03"
+               min="2020-01-01" max="2020-12-31"><br />
+
+        <label for="_checkedoutdate">Checkout Date:</label>
+        <input type="date" id="_checkedoutdate" name="_checkedoutdate"
+               value="2020-11-03"
+               min="2020-01-01" max="2020-12-31">
+
+        <input type="submit" value="Submit" />
+    </form>
+</section>
