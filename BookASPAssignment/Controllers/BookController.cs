@@ -12,70 +12,109 @@ namespace BookASPAssignment.Controllers
 {
     public class BookController : Controller
     {
-       
-        
         public IActionResult Index()
-
-
-
         {
-            Debug.WriteLine("ACTION - Index Action");
             return RedirectToAction("List");
         }
+
+        public IActionResult Create(string id, string title, string author, string publicationDate, string checkedOutDate)
+        {
+            if (id != null && title != null && author != null && publicationDate != null && checkedOutDate != null)
+            {
+                try
+                {
+                    CreateBook(id, title, author, publicationDate, checkedOutDate);
+                    ViewBag.SuccessfulCreation = true;
+                    ViewBag.Status = $"Successfully added book ID {id}";
+                }
+                catch (Exception e)
+                {
+                    ViewBag.SuccessfulCreation = false;
+                    ViewBag.Status = $"An error occured. {e.Message}";
+                }
+            }
+
+            return View();
+        }
+
         public IActionResult List()
         {
-            Debug.WriteLine("ACTION - List Action");
             ViewBag.Books = Books;
             return View();
         }
-        public IActionResult Create(int _id, string _title, DateTime _publicatondate, DateTime _checkedoutdate)
-        {
-            
-                Debug.WriteLine("ACTION - Index Action");
-                CreateBook(_id, _title.Trim(), _publicatondate, _checkedoutdate);
-                return RedirectToAction("List");
-          
-            
 
-        }
-        public static List<Book> Books = new List<Book>();
-        public void CreateBook(int _id, string _title, DateTime _publicatondate, DateTime _checkedoutdate)
+        public IActionResult Details(string id)
         {
-            Books.Add(new Book(_id, _title, _publicatondate, _checkedoutdate)
-        );
-            
-            Console.WriteLine($"You have successfully checked out /*book.booktitle*/ until /*DueDate*/.");
-        }
-      
+            try
+            {
+                ViewBag.Book = GetBookByID(id);
+            }
+            catch
+            {
 
-        public Book GetBookByID(int _id)
-    {
-        return Books.Where(x => x.ID == _id).SingleOrDefault();
-    }
-        /****************************************************************
-        Below code  Borrowed from .https://docs.microsoft.com/en-us/dotnet/api/system.datetime.adddays?view=netcore-3.1
-        *****************************************************************/
-        public DateTime  ExtendDueDateForBookByID()
-        {
-            DateTime today = DateTime.Now;
-               DateTime  DueDate = today.AddDays(7);
-            return DueDate;
-            
-            
+            }
+            return View();
         }
 
-        //    public void ReturnBookByID()
-        //{
+        public IActionResult Extend(string id)
+        {
+            ExtendDueDateByID(id);
+            return RedirectToAction("Details", new Dictionary<string, string>() { { "id", id } });
+        }
 
-        //}
-        //    //public void DeleteBookByID(int _id)
-        //    //{
-        //    //    Books.Remove(new Book()
-        //    //    {
-        //    //        ID = _id
-        //    //    }
-        //    //        ); ;
-        //    //}
+        public IActionResult Return(string id)
+        {
+            ReturnBookByID(id);
+            return RedirectToAction("Details", new Dictionary<string, string>() { { "id", id } });
+        }
+
+        public IActionResult Delete(string id)
+        {
+            DeleteBookByID(id);
+            return RedirectToAction("List");
+        }
+
+        public static List<Book> Books = new List<Book>()
+        {
+
+            new Book(1, "Test Book", "Test Author", new DateTime(1990, 01, 01), new DateTime(2020, 10, 28)),
+            new Book(2, "Another Book", "Test Author", new DateTime(1990, 03, 03), new DateTime(2020, 10, 20))
+
+        };
+
+        public void CreateBook(string id, string title, string author, string publicationDate, string checkedOutDate)
+        {
+            int parsedID = int.Parse(id);
+
+            if (!Books.Exists(x => x.ID == parsedID))
+            {
+                Books.Add(new Book(parsedID, title.Trim(), author.Trim(), DateTime.Parse(publicationDate), DateTime.Parse(checkedOutDate)));
+            }
+            else
+            {
+                throw new Exception("That Book ID already exists!");
+            }
+        }
+
+        public Book GetBookByID(string id)
+        {
+            return Books.Where(x => x.ID == int.Parse(id)).Single();
+        }
+
+        public void ExtendDueDateByID(string id)
+        {
+            GetBookByID(id).DueDate = GetBookByID(id).DueDate.AddDays(7);
+        }
+
+        public void ReturnBookByID(string id)
+        {
+            GetBookByID(id).ReturnedDate = DateTime.Today;
+        }
+
+        public void DeleteBookByID(string id)
+        {
+            Books.Remove(GetBookByID(id));
+        }
 
 
     }

@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+
+@if (ViewBag.Book != null)
+{
+    <h1>Details - @(ViewBag.Book.ID)</h1>
+    <p>Title: @(ViewBag.Book.Title)</p>
+    <p>Author: @(ViewBag.Book.Author)</p>
+    <p>Publication Date: @(ViewBag.Book.PublicationDate.ToLongDateString())</p>
+    <p>Checked Out Date: @(ViewBag.Book.CheckedOutDate.ToLongDateString())</p>
+    <p>Due Date: @(ViewBag.Book.DueDate.ToLongDateString())</p>
+
+    <p>Returned Date: @((ViewBag.Book.ReturnedDate == null ? "Not Returned" : ((DateTime)ViewBag.Book.ReturnedDate).ToLongDateString()))</p>
+
+    <a class="btn btn-success" href="/Book/Return?id=@(ViewBag.Book.ID)">Return Book</a>
+
+    <a class="btn btn-primary" href="/Book/Extend?id=@(ViewBag.Book.ID)">Extend Due Date</a>
+
+    <a class="btn btn-danger" href="/Book/Delete?id=@(ViewBag.Book.ID)">Delete Book</a>
+
+}
+else
+{
+    <h1>Details</h1>
+    <p>An error occured trying to populate book data. <a href="/Book/List">Click here to return to the book list</a>.</p>
+}

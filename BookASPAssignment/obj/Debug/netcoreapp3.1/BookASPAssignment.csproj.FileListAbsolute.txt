@@ -109,3 +109,5 @@ C:\Users\write\source\repos\BookASPAssignment\BookASPAssignment\obj\Debug\netcor
 C:\Users\write\source\repos\BookASPAssignment\BookASPAssignment\obj\Debug\netcoreapp3.1\BookASPAssignment.pdb
 C:\Users\write\source\repos\BookASPAssignment\BookASPAssignment\obj\Debug\netcoreapp3.1\BookASPAssignment.genruntimeconfig.cache
 C:\Users\write\source\repos\BookASPAssignment\BookASPAssignment\obj\Debug\netcoreapp3.1\Razor\Views\Book\List.cshtml.g.cs
+C:\Users\write\source\repos\BookASPAssignment\BookASPAssignment\obj\Debug\netcoreapp3.1\Razor\Views\Book\Create.cshtml.g.cs
+C:\Users\write\source\repos\BookASPAssignment\BookASPAssignment\obj\Debug\netcoreapp3.1\Razor\Views\Book\Details.cshtml.g.cs

@@ -7,26 +7,35 @@ namespace BookASPAssignment.Models
 {
     public class Book
     {
-        public int ID { get; }
+        private int _id;
+        public int ID => _id;
 
-        public string Title { get; }
+        private string _title;
+        public string Title => _title;
 
-        public DateTime PublicationDate { get;  }
+        private string _author;
+        public string Author => _author;
 
-        public DateTime CheckedOutDate { get;  }
+        private DateTime _publicationDate;
+        public DateTime PublicationDate => _publicationDate;
+
+        private DateTime _checkedOutDate;
+        public DateTime CheckedOutDate => _checkedOutDate;
 
         public DateTime DueDate { get; set; }
 
-        public DateTime ReturnedDate { get; set; }
-        
-        public string Author { get; }
+        public DateTime? ReturnedDate { get; set; }
 
-        public  Book( int _id, string _title, DateTime _publicatondate, DateTime _checkedoutdate)
+
+        public Book(int id, string title, string author, DateTime publicationDate, DateTime checkedOutDate)
         {
-            ID = _id;
-            Title = _title;
-            PublicationDate = _publicatondate;
-            CheckedOutDate = _publicatondate.AddDays(14);
+            _id = id;
+            _title = title;
+            _author = author;
+            _publicationDate = publicationDate;
+            _checkedOutDate = checkedOutDate;
+            DueDate = CheckedOutDate.AddDays(14);
+            ReturnedDate = null;
         }
     }
 }
