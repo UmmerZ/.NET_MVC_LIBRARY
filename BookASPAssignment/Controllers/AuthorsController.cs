@@ -54,7 +54,7 @@ namespace BookASPAssignment.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,DateOfBirth,DeathDate")] Author author)
+        public async Task<IActionResult> Create([Bind("ID,Name,DateOfBirth,DeathDate")] Borrow author)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace BookASPAssignment.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,DateOfBirth,DeathDate")] Author author)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,DateOfBirth,DeathDate")] Borrow author)
         {
             if (id != author.ID)
             {
@@ -149,9 +149,9 @@ namespace BookASPAssignment.Controllers
         {
             return _context.Authors.Any(e => e.ID == id);
         }
-        public static List<Author> GetAuthors()
+        public static List<Borrow> GetAuthors()
         {
-            List<Author> results;
+            List<Borrow> results;
             using (LibraryContext context =  new LibraryContext())
             {
                 results = context.Authors.ToList();

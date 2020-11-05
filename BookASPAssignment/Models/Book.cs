@@ -40,8 +40,8 @@ namespace BookASPAssignment.Models
 
         
         [ForeignKey(nameof(AuthorID))]
-        [InverseProperty(nameof(Models.Author.Books))]
-        public virtual Author Author { get; set; }
+        [InverseProperty(nameof(Models.Borrow.Books))]
+        public virtual Borrow Author { get; set; }
 
 
 

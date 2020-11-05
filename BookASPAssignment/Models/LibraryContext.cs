@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookASPAssignment.Models
 {
-     class LibraryContext : DbContext
+    public class LibraryContext : DbContext
     
     {
 
-        public virtual DbSet<Book> Books{ get; set; }
+        public virtual DbSet<Book> Books { get; set; }
         public virtual DbSet<Author> Authors { get; set; }
         public virtual DbSet<Borrow> Borrows { get; set; }
 
