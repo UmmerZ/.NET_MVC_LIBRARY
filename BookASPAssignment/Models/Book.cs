@@ -1,41 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace BookASPAssignment.Models
-{
+{  [Table("Book")]
     public class Book
     {
-        private int _id;
-        public int ID => _id;
-
-        private string _title;
-        public string Title => _title;
-
-        private string _author;
-        public string Author => _author;
-
-        private DateTime _publicationDate;
-        public DateTime PublicationDate => _publicationDate;
-
-        private DateTime _checkedOutDate;
-        public DateTime CheckedOutDate => _checkedOutDate;
-
-        public DateTime DueDate { get; set; }
-
-        public DateTime? ReturnedDate { get; set; }
-
-
-        public Book(int id, string title, string author, DateTime publicationDate, DateTime checkedOutDate)
+        public Book()
         {
-            _id = id;
-            _title = title;
-            _author = author;
-            _publicationDate = publicationDate;
-            _checkedOutDate = checkedOutDate;
-            DueDate = CheckedOutDate.AddDays(14);
-            ReturnedDate = null;
+            Borrows = new HashSet<Borrow>();
         }
+        [Key]
+
+        [Column(TypeName = "int(10)")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int ID { get; set; }
+
+
+
+        [Column(TypeName = "varchar(100)")]
+        public string Title { get; set; }
+
+
+        [Column(TypeName = "date")]
+        public DateTime PublicationDate { get; set; }
+
+
+        [Column(TypeName = "int(10)")]
+        public int AuthorID { get; set; }
+
+        [InverseProperty(nameof(Models.Borrow.Book))]
+        public virtual ICollection<Borrow> Borrows { get; set; }
+        
+      
+
+
+        
+        [ForeignKey(nameof(AuthorID))]
+        [InverseProperty(nameof(Models.Author.Books))]
+        public virtual Author Author { get; set; }
+
+
+
+
+
+
+
+
     }
 }
