@@ -1,4 +1,4 @@
-﻿<!--@{
+﻿@{
     ViewData["Title"] = "Create";
 }
 
@@ -10,8 +10,8 @@
 }
 
 
-<se-->@*ction>
-    <h2>Create a Person</h2>
+<section>
+    
     <form action="/Book/Create" method="get">
         <div>
             <label for="id">ID:</label>
@@ -22,8 +22,20 @@
             <input id="title" type="text" name="title" value="" />
         </div>
         <div>
-            <label for="author">Author:</label>
-            <input id="author" type="text" name="author" value="" />
+            <label for="authorID">Choose Author:</label>
+            <select id="authorID" name="authorID">
+                @foreach (Author author in ViewBag.Authors)
+                {
+                    @if (author.ID.ToString() == ViewBag.AuthorID)
+                    {
+                        <option value="@(author.ID)" selected>@(author.Name)</option>
+                    }
+                    else
+                    {
+                        <option value="@(author.ID)">@(author.Name)</option>
+                    }
+                }
+            </select>
         </div>
         <div>
             <label for="publicationDate">Publication Date:</label>
@@ -40,6 +52,6 @@
         <input type="submit" value="Submit" />
     </form>
 
-</section>*@
+</section>
 
 

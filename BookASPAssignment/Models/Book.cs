@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace BookASPAssignment.Models
-{  [Table("Book")]
+{  [Table("book")]
     public class Book
     {
         public Book()
@@ -40,8 +40,11 @@ namespace BookASPAssignment.Models
 
         
         [ForeignKey(nameof(AuthorID))]
-        [InverseProperty(nameof(Models.Borrow.Books))]
-        public virtual Borrow Author { get; set; }
+        [InverseProperty(nameof(Models.Author.Books))]
+        public virtual Author Author { get; set; }
+
+        
+     
 
 
 

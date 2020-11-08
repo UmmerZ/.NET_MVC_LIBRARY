@@ -185,3 +185,4 @@ C:\Users\write\source\repos\BookASPAssignment\BookASPAssignment\obj\Debug\netcor
 C:\Users\write\source\repos\BookASPAssignment\BookASPAssignment\obj\Debug\netcoreapp3.1\Razor\Views\Authors\Details.cshtml.g.cs
 C:\Users\write\source\repos\BookASPAssignment\BookASPAssignment\obj\Debug\netcoreapp3.1\Razor\Views\Authors\Edit.cshtml.g.cs
 C:\Users\write\source\repos\BookASPAssignment\BookASPAssignment\obj\Debug\netcoreapp3.1\Razor\Views\Authors\Index.cshtml.g.cs
+C:\Users\write\source\repos\BookASPAssignment\BookASPAssignment\obj\Debug\netcoreapp3.1\Razor\Views\Borrow\Create.cshtml.g.cs

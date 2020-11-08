@@ -149,9 +149,9 @@ namespace BookASPAssignment.Controllers
         {
             return _context.Authors.Any(e => e.ID == id);
         }
-        public static List<Borrow> GetAuthors()
+        public static List<Author> GetAuthors()
         {
-            List<Borrow> results;
+            List<Author> results;
             using (LibraryContext context =  new LibraryContext())
             {
                 results = context.Authors.ToList();

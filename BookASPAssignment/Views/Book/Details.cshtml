@@ -5,26 +5,39 @@
 
 
 
+
 @if (ViewBag.Book != null)
 {
-    <h1>Details - @(ViewBag.Book.ID)</h1>
+    <h1>Book Details: </h1>
+
+    <p>Book ID :@(ViewBag.Book.ID)</p>
     <p>Title: @(ViewBag.Book.Title)</p>
-    <p>Author: @(ViewBag.Book.Author)</p>
-    <p>Publication Date: @(ViewBag.Book.PublicationDate.ToLongDateString())</p>
-    <p>Checked Out Date: @(ViewBag.Book.CheckedOutDate.ToLongDateString())</p>
-    <p>Due Date: @(ViewBag.Book.DueDate.ToLongDateString())</p>
+    <p>Author: @(ViewBag.Book.Author.Name)</p>
+    <p>Publication Date: @(((DateTime)ViewBag.Book.PublicationDate).ToLongDateString())</p>
 
-    <p>Returned Date: @((ViewBag.Book.ReturnedDate == null ? "Not Returned" : ((DateTime)ViewBag.Book.ReturnedDate).ToLongDateString()))</p>
+    @if (ViewBag.Book.Borrows.Count > 0)
+    {
+        foreach (Borrow borrow in ViewBag.Book.Borrows)
+        {
+            <p>Checked Out Date: @(((DateTime)borrow.CheckedOutDate).ToLongDateString())</p>
+            <p>Due Date: @(((DateTime)borrow.DueDate).ToLongDateString())</p>
 
-    <a class="btn btn-success" href="/Book/Return?id=@(ViewBag.Book.ID)">Return Book</a>
+            <p>Returned Date: @((borrow.ReturnedDate == null ? "Not Returned" : ((DateTime)borrow.ReturnedDate).ToLongDateString()))</p>
+        }
 
-    <a class="btn btn-primary" href="/Book/Extend?id=@(ViewBag.Book.ID)">Extend Due Date</a>
+        <a class="btn btn-success" href="/Book/Return?id=@(ViewBag.Book.ID)">Return Book</a>
 
-    <a class="btn btn-danger" href="/Book/Delete?id=@(ViewBag.Book.ID)">Delete Book</a>
+        <a class="btn btn-primary" href="/Book/Extend?id=@(ViewBag.Book.ID)">Extend Due Date</a>
 
-}
-else
-{
-    <h1>Details</h1>
-    <p>An error occured trying to populate book data. <a href="/Book/List">Click here to return to the book list</a>.</p>
-}
+        <a class="btn btn-danger" href="/Book/Delete?id=@(ViewBag.Book.ID)">Delete Book</a>
+
+
+
+    }
+    else
+    {
+        <a class="btn btn-warning" href="/Book/Borrow?BookID=@(ViewBag.Book.ID)">Create Borrow</a>
+        @*<h1>Details</h1>
+        <p>Book has not been borrowed. You want to c <a href="/Book/List">Click here to return to the book list</a>.</p>*@
+    }
+} 

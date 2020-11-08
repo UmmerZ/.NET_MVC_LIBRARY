@@ -1,51 +1,88 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using System.Linq;
 using System.Threading.Tasks;
 using BookASPAssignment.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.VisualBasic;
-
+using Microsoft.EntityFrameworkCore;
 namespace BookASPAssignment.Controllers
-{
+{ 
     public class BorrowController : Controller
+{
+
+    public IActionResult Index()
     {
-        List<Borrow> Borrows = new List<Borrow>();
-        public IActionResult Index()
+        return RedirectToAction("List");
+    }
+    public IActionResult Create(string bookID, string checkedOutDate, string returnedDate)
         {
-             return RedirectToAction("List");
-        }
+            try
+            {
+                CreateBorrow(bookID);
+                ViewBag.SuccessfulCreation = true;
+                ViewBag.Status = $"Successfully added book ID {bookID}";
+            }
+            catch (Exception e)
+            {
+                ViewBag.SuccessfulCreation = false;
+                ViewBag.Status = $"An error occured. {e.Message}";
+            }
+
+
+            return View();
+    }
+
         public static void ExtendDueDateForBorrowByID(string bookID)
         {
-            using LibraryContext context = new LibraryContext();
-            Borrow savedObject = context.Borrows.Where(x => x.BookID == int.Parse(bookID)).LastOrDefault();
-            savedObject.DueDate = savedObject.DueDate.AddDays(7);
-        }
-        public static void ReturnBorrowByID(string bookID)
-        {
-            using LibraryContext context = new LibraryContext();
-            Borrow savedObject = context.Borrows.Where(x => x.BookID == int.Parse(bookID)).LastOrDefault();
-            savedObject.ReturnedDate = DateTime.Today;
-        }
-        
-        public void CreateBorrow(string id)
-        {
-            int parsedID = int.Parse(id);
-
-            if (!Borrows.Exists(x => x.Book.ID == parsedID))
+            using (LibraryContext context = new LibraryContext())
             {
 
-                Borrow borrow = new Borrow()
-                {
-                    CheckedOutDate = DateTime.Today,
-                    DueDate = DateTime.Now.AddDays(14)
-                };
-            } 
-            else
-            {
-                throw new Exception("That Book ID already exists!");
+                Borrow extendBorrow = context.Borrows.Where(x => x.BookID == int.Parse(bookID)).SingleOrDefault();
+                extendBorrow.ExtentionCount++;
+                extendBorrow.DueDate.AddDays(7);
+                context.SaveChanges();
             }
         }
+    public static void ReturnBorrowByID(string bookID)
+    {
+        using LibraryContext context = new LibraryContext();
+        Borrow savedObject = context.Borrows.Where(x => x.BookID == int.Parse(bookID)).LastOrDefault();
+        savedObject.ReturnedDate = DateTime.Today;
     }
+
+    public static void CreateBorrow(string bookID)
+    {
+        using (LibraryContext context = new LibraryContext())
+        {
+
+                if (context.Borrows.Any(x => x.BookID != int.Parse(bookID)))
+                {
+                    context.Borrows.Add(new Borrow()
+                    {
+                        BookID = int.Parse(bookID),
+                        CheckedOutDate = DateTime.Today.AddDays(0),
+                        //ReturnedDate = DateTime.Parse(null),
+                        DueDate = DateTime.Today.AddDays(14)
+                    });
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("Book  already Borrowed!");
+                }
+
+            }
+    }
+//        public static Borrow GetBorrowByID(string bookID)
+//        { 
+//            using (LibraryContext context = new LibraryContext())
+//            {
+//                return context.Borrows.Where(x => x.BookID == int.Parse(bookID)).SingleOrDefault();
+//            }
+            
+//        }
+}
 }

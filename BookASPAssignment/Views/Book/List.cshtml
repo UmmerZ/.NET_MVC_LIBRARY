@@ -1,5 +1,5 @@
 ﻿
-@*@{
+@{
     ViewData["Title"] = "List";
 }
 
@@ -7,11 +7,11 @@
 
 @if (ViewBag.Books.Count > 0)
 {
-    <table>
+    <table class=" table">
         <tr>
             <th>ID</th>
             <th>Title</th>
-            <th>Author</th>
+            <th>AuthorID</th>
             <th>Published</th>
             <th>Checked Out</th>
             <th>Due Date</th>
@@ -19,16 +19,22 @@
         </tr>
         @foreach (Book book in ViewBag.Books)
         {
-            <tr>
-                <td>@(book.ID)</td>
-                <td><a href="/Book/Details?id=@(book.ID)">@(book.Title)</a></td>
-                <td>@(book.Author)</td>
-                <td>@(book.PublicationDate.ToShortDateString()</td>
-                <td>@(book.CheckedOutDate.ToShortDateString())</td>
-                <td>@(book.DueDate.ToShortDateString())</td>
-
-                <td>@((book.ReturnedDate == null ? "Not Returned" : ((DateTime)book.ReturnedDate).ToShortDateString()))</td>
-            </tr>
+    <tr>
+        <td>@(book.ID)</td>
+        <td><a href="/Book/Details?id=@(book.ID)">@(book.Title)</a></td>
+        <td>@(book.AuthorID)</td>
+        <td>@(book.PublicationDate.ToShortDateString())</td>
+        @if (book.Borrows.Count > 0)
+        {
+            <td>@(book.Borrows.Last().CheckedOutDate.ToShortDateString())</td>
+            <td>@(book.Borrows.Last().DueDate.ToShortDateString())</td>
+            <td>@(book.Borrows.Last().ReturnedDate.ToShortDateString())</td>
+        }
+        else
+        {
+            <td>NA</td>
+        }
+    </tr>
         }
 
     </table>
@@ -36,4 +42,4 @@
 else
 {
     <p>No books have been checked out.</p>
-}*@
+}

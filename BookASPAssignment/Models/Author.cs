@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace BookASPAssignment.Models
-{ [Table("Author")]
+{ [Table("author")]
     public class Author
     {
         public Author()
