@@ -4,6 +4,19 @@
 }
 
 
+@if (ViewBag.Message != null)
+{
+    <p class="alert-@(ViewBag.Error != null ? "danger" : "success")">@(ViewBag.Message)</p>
+    if (ViewBag.Error != null)
+    {
+        <ul>
+            @foreach (Exception e in ViewBag.Exception.ValidationExceptions)
+            {
+                <li class="alert-danger">@(e.Message)</li>
+            }
+        </ul>
+    }
+}
 
 
 @if (ViewBag.Book != null)
@@ -16,7 +29,7 @@
     <p>Publication Date: @(((DateTime)ViewBag.Book.PublicationDate).ToLongDateString())</p>
 
     @if (ViewBag.Book.Borrows.Count > 0)
-    {      <H1>Library Details</H1>
+    {<H1>Library Details</H1>
         foreach (Borrow borrow in ViewBag.Book.Borrows)
         {
             <p>Checked Out Date: @(((DateTime)borrow.CheckedOutDate).ToLongDateString())</p>
@@ -25,9 +38,9 @@
             <p>Returned Date: @((borrow.ReturnedDate == null ? "Not Returned" : ((DateTime)borrow.ReturnedDate).ToLongDateString()))</p>
             <p>Number of Extensions Given: @(borrow.ExtentionCount)</p>
 
-            if(borrow.ReturnedDate == null || borrow.ReturnedDate < DateTime.Now)
+            if (borrow.ReturnedDate == null || borrow.ReturnedDate < DateTime.Now)
             {
-                <div class="alert alert-dark" >This Book Cannot be Borrowed as it has not been returned yet!</div>
+                <div class="alert alert-dark">This Book Cannot be Borrowed as it has not been returned yet!</div>
             }
         }
 
@@ -43,7 +56,7 @@
     }
     else
     {
-        <a class="btn btn-warning" href="/Book/Borrow?bookID=@(ViewBag.Book.ID)">Create Borrow</a>
+        <a class="btn btn-warning" href="/Book/BorrowCreate?bookID=@(ViewBag.Book.ID)">Create Borrow</a>
         @*<h1>Details</h1>
             <p>Book has not been borrowed. You want to c <a href="/Book/List">Click here to return to the book list</a>.</p>*@
     }

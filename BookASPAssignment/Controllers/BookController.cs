@@ -16,7 +16,13 @@ namespace BookASPAssignment.Controllers
 {
     public class BookController : Controller
     {
-        
+      /*
+       
+       Author: Ummer Zaman
+      Last Edited: 09 Nov 2020
+      Citations: Mostly from the class tutorials.
+      Some Help from Birm and Aaron at couple of times
+       Used microsoft documentation for linq queries reference */  
 
         public IActionResult Index()
         {
@@ -64,8 +70,34 @@ namespace BookASPAssignment.Controllers
            
             return View();
         }
-        /*********************************************************************
-         */
+
+        /**************************************************
+         * Citation: Used class Tutorial for Validation 
+         * ***********************************************/
+        public IActionResult BorrowCreate(string bookID, string checkedOutDate, string returnedDate)
+        {
+            
+            if (Request.Query.Count > 0)
+            {
+
+                try
+                {
+                    BorrowController.CreateBorrow(bookID);
+
+                    ViewBag.Message = $"Borrow Successful for Book {bookID}";
+
+                }
+                catch (ValidationException e)
+                {
+                    ViewBag.CheckedOutDate = checkedOutDate;
+                    ViewBag.ReturnedDate = returnedDate;
+                    ViewBag.Message = "There is a problem with the Submission.";
+                    ViewBag.Exception = e;
+                    ViewBag.Error = true;
+                }
+            }
+            return View("Details");
+        }
         public static List<Book> GetOverDueBooks(string filter)
         {
             List<Book> results;
@@ -94,36 +126,40 @@ namespace BookASPAssignment.Controllers
         {
             try
             {
-                ExtendDueDateForBookByID(bookID);
-                ViewBag.SuccessfulCreation = true;
-                ViewBag.Status = $"Successfully added book ID {bookID}";
+                BorrowController.ExtendDueDateForBorrowByID(bookID);
+                ViewBag.Message = $"Extension Successfull{bookID}";
             }
-            catch(Exception e)
+            catch(ValidationException e)
             {
-                ViewBag.SuccessfulCreation = false;
-                ViewBag.Status = $"An error occured. {e.Message}";
+                ViewBag.Message = "There is a problem with the Extension.";
+                ViewBag.Exception = e;
+                ViewBag.Error = true;
             }
-            return RedirectToAction("Details", new Dictionary<string, string>() { { "bookID", bookID } });
+            return View("Details");
         }
 
         public IActionResult Return(string bookID)
         {
-            ReturnBookByID(bookID);
-            return RedirectToAction("Details", new Dictionary<string, string>() { { "BookId", bookID } });
+            try
+            {
+                ReturnBookByID(bookID);
+                ViewBag.Message = $"Return Succesfull!";
+
+            }
+            catch
+            {
+                ViewBag.Message = $"Problem Occured!";
+            }
+           return View("Details");
         }
 
         public IActionResult Delete(string id)
         {
             DeleteBookByID(id);
-            return RedirectToAction("List");
+            ViewBag.Message = $"Book with ID {id} has been deleted!";
+            return View("Details");
         }
 
-        public IActionResult Borrow(string bookID, string checkedOutDate, string returnedDate)
-        {
-            BorrowController.CreateBorrow(  bookID);
-            return RedirectToAction("Details", new Dictionary<string, string>() { { "BookId", bookID } });
-           
-        }
 
         public void CreateBook(string id, string title, string publicationDate, string authorID)
         {
@@ -164,11 +200,7 @@ namespace BookASPAssignment.Controllers
             using (LibraryContext context = new LibraryContext())
             {
                 
-                
-                
-
-                
-                if(context.Books.Any(x => x.ID == int.Parse(id)))
+               if(context.Books.Any(x => x.ID == int.Parse(id)))
                 {
                     //IF ID Already Exists.
                     exception.ValidationExceptions.Add(new Exception("The ID you Provided already exists!"));
@@ -178,7 +210,7 @@ namespace BookASPAssignment.Controllers
                 {
                     exception.ValidationExceptions.Add(new Exception("The Book Title already exists with that Author!"));
                  }
-
+                 // if The Title of the Book exceeds its Charactor Limit!
                 if (title.Length > 100)
                 {
                     exception.ValidationExceptions.Add(new Exception("The Book Title Cannot be more than 100 Charectors!"));
@@ -222,10 +254,7 @@ namespace BookASPAssignment.Controllers
             }
         }
         //Taking the Method from  the Borrow Controller
-        public void ExtendDueDateForBookByID(string bookID)
-        {
-            BorrowController.ExtendDueDateForBorrowByID(bookID);
-        }
+        
 
         public void ReturnBookByID(string bookID)
         {

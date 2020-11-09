@@ -18,40 +18,38 @@ namespace BookASPAssignment.Controllers
     {
         return RedirectToAction("List");
     }
-    public IActionResult Create(string bookID, string checkedOutDate, string returnedDate)
-        {
-            if (Request.Query.Count > 0)
-            {
-
-                try
-                {
-                    CreateBorrow(bookID);
-                   
-                    ViewBag.Message = $"Borrow Successful for Book {bookID}";
-                   
-                }
-                catch (ValidationException e)
-                {
-                    ViewBag.CheckedOutDate = checkedOutDate;
-                    ViewBag.ReturnedDate = returnedDate;
-                    ViewBag.Message = "There is a problem with the Submission.";
-                    ViewBag.Exception = e;
-                    ViewBag.Error = true;
-                }
-
-            }
-            return Redirect("Book/Details");
-    }
+    
 
         public static void ExtendDueDateForBorrowByID(string bookID)
         {
             using (LibraryContext context = new LibraryContext())
             {
+                ValidationException exception = new ValidationException();
+
+
 
                 Borrow extendBorrow = context.Borrows.Where(x => x.BookID == int.Parse(bookID)).SingleOrDefault();
+                // will not let Books to Extend more # times
+                if(extendBorrow.ExtentionCount >= 3)
+                {
+                    exception.ValidationExceptions.Add(new Exception("You can Extend  only 3 times!"));
+                }
+                // Will throw Exception if Extension tried on Overdue books
+                if (extendBorrow.DueDate < DateTime.Now)
+                {
+                    exception.ValidationExceptions.Add(new Exception("Sorry! Cannot extend OverDue Books!"));
+                }
+               
+                if (exception.ValidationExceptions.Count > 0)
+                {
+                    throw exception;
+                }
+
                 extendBorrow.ExtentionCount++;
-                extendBorrow.DueDate = extendBorrow.DueDate.AddDays(7);
-                context.SaveChanges();
+                    extendBorrow.DueDate = extendBorrow.DueDate.AddDays(7);
+                    context.SaveChanges();
+                
+               
             }
         }
     public static void ReturnBorrowByID(string bookID)
