@@ -61,7 +61,17 @@ namespace BookASPAssignment.Controllers
 
         public IActionResult Extend(string bookID)
         {
-            ExtendDueDateForBookByID(bookID);
+            try
+            {
+                ExtendDueDateForBookByID(bookID);
+                ViewBag.SuccessfulCreation = true;
+                ViewBag.Status = $"Successfully added book ID {bookID}";
+            }
+            catch(Exception e)
+            {
+                ViewBag.SuccessfulCreation = false;
+                ViewBag.Status = $"An error occured. {e.Message}";
+            }
             return RedirectToAction("Details", new Dictionary<string, string>() { { "bookID", bookID } });
         }
 

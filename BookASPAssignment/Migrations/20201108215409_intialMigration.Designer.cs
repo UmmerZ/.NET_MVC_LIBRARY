@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookASPAssignment.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20201105043422_seedingMigrations")]
-    partial class seedingMigrations
+    [Migration("20201108215409_intialMigration")]
+    partial class intialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,7 +39,7 @@ namespace BookASPAssignment.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Author");
+                    b.ToTable("author");
 
                     b.HasData(
                         new
@@ -101,7 +101,7 @@ namespace BookASPAssignment.Migrations
                     b.HasIndex("AuthorID")
                         .HasName("FK_Book_Author");
 
-                    b.ToTable("Book");
+                    b.ToTable("book");
 
                     b.HasData(
                         new
@@ -226,6 +226,9 @@ namespace BookASPAssignment.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("date");
 
+                    b.Property<int>("ExtentionCount")
+                        .HasColumnType("int(10)");
+
                     b.Property<DateTime>("ReturnedDate")
                         .HasColumnType("date");
 
@@ -234,7 +237,7 @@ namespace BookASPAssignment.Migrations
                     b.HasIndex("BookID")
                         .HasName("FK_Borrow_Book");
 
-                    b.ToTable("Borrows");
+                    b.ToTable("borrows");
 
                     b.HasData(
                         new
@@ -243,6 +246,7 @@ namespace BookASPAssignment.Migrations
                             BookID = -1,
                             CheckedOutDate = new DateTime(2019, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DueDate = new DateTime(2020, 11, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExtentionCount = 0,
                             ReturnedDate = new DateTime(2020, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -251,6 +255,7 @@ namespace BookASPAssignment.Migrations
                             BookID = -2,
                             CheckedOutDate = new DateTime(2019, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DueDate = new DateTime(2020, 11, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExtentionCount = 0,
                             ReturnedDate = new DateTime(2020, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -259,6 +264,7 @@ namespace BookASPAssignment.Migrations
                             BookID = -3,
                             CheckedOutDate = new DateTime(2020, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DueDate = new DateTime(2020, 11, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExtentionCount = 0,
                             ReturnedDate = new DateTime(2020, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -267,6 +273,7 @@ namespace BookASPAssignment.Migrations
                             BookID = -4,
                             CheckedOutDate = new DateTime(2020, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DueDate = new DateTime(2020, 11, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExtentionCount = 0,
                             ReturnedDate = new DateTime(2020, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -275,6 +282,7 @@ namespace BookASPAssignment.Migrations
                             BookID = -5,
                             CheckedOutDate = new DateTime(2019, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DueDate = new DateTime(2020, 11, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExtentionCount = 0,
                             ReturnedDate = new DateTime(2020, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -283,6 +291,7 @@ namespace BookASPAssignment.Migrations
                             BookID = -6,
                             CheckedOutDate = new DateTime(2020, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DueDate = new DateTime(2020, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExtentionCount = 0,
                             ReturnedDate = new DateTime(2020, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -291,6 +300,7 @@ namespace BookASPAssignment.Migrations
                             BookID = -7,
                             CheckedOutDate = new DateTime(2020, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DueDate = new DateTime(2020, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExtentionCount = 0,
                             ReturnedDate = new DateTime(2020, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -299,6 +309,7 @@ namespace BookASPAssignment.Migrations
                             BookID = -8,
                             CheckedOutDate = new DateTime(2020, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DueDate = new DateTime(2020, 11, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExtentionCount = 0,
                             ReturnedDate = new DateTime(2020, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -307,6 +318,7 @@ namespace BookASPAssignment.Migrations
                             BookID = -9,
                             CheckedOutDate = new DateTime(2020, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DueDate = new DateTime(2020, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExtentionCount = 0,
                             ReturnedDate = new DateTime(2020, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -315,6 +327,7 @@ namespace BookASPAssignment.Migrations
                             BookID = -10,
                             CheckedOutDate = new DateTime(2020, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DueDate = new DateTime(2020, 11, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExtentionCount = 0,
                             ReturnedDate = new DateTime(2020, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -323,6 +336,7 @@ namespace BookASPAssignment.Migrations
                             BookID = -12,
                             CheckedOutDate = new DateTime(2020, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DueDate = new DateTime(2020, 11, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExtentionCount = 0,
                             ReturnedDate = new DateTime(2020, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -331,6 +345,7 @@ namespace BookASPAssignment.Migrations
                             BookID = -13,
                             CheckedOutDate = new DateTime(2020, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DueDate = new DateTime(2020, 11, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExtentionCount = 0,
                             ReturnedDate = new DateTime(2020, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -339,6 +354,7 @@ namespace BookASPAssignment.Migrations
                             BookID = -11,
                             CheckedOutDate = new DateTime(2020, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DueDate = new DateTime(2020, 11, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExtentionCount = 0,
                             ReturnedDate = new DateTime(2020, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -347,6 +363,7 @@ namespace BookASPAssignment.Migrations
                             BookID = -15,
                             CheckedOutDate = new DateTime(2020, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DueDate = new DateTime(2020, 11, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExtentionCount = 0,
                             ReturnedDate = new DateTime(2020, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -355,6 +372,7 @@ namespace BookASPAssignment.Migrations
                             BookID = -12,
                             CheckedOutDate = new DateTime(2020, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DueDate = new DateTime(2020, 11, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExtentionCount = 0,
                             ReturnedDate = new DateTime(2020, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });

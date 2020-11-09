@@ -23,7 +23,7 @@ namespace BookASPAssignment.Models
         public DateTime CheckedOutDate { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime ReturnedDate { get; set; }
+        public DateTime ?  ReturnedDate { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime DueDate { get; set; }

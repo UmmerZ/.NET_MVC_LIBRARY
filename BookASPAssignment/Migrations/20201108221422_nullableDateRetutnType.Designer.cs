@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookASPAssignment.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20201108213322_addedExtentionCount")]
-    partial class addedExtentionCount
+    [Migration("20201108221422_nullableDateRetutnType")]
+    partial class nullableDateRetutnType
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -229,7 +229,7 @@ namespace BookASPAssignment.Migrations
                     b.Property<int>("ExtentionCount")
                         .HasColumnType("int(10)");
 
-                    b.Property<DateTime>("ReturnedDate")
+                    b.Property<DateTime?>("ReturnedDate")
                         .HasColumnType("date");
 
                     b.HasKey("ID");

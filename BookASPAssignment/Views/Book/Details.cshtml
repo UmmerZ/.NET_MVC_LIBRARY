@@ -25,9 +25,10 @@
             <p>Returned Date: @((borrow.ReturnedDate == null ? "Not Returned" : ((DateTime)borrow.ReturnedDate).ToLongDateString()))</p>
         }
 
-        <a class="btn btn-success" href="/Book/Return?id=@(ViewBag.Book.ID)">Return Book</a>
+       
+        <a class="btn btn-success" href="/Book/Return?bookID=@(ViewBag.Book.ID)">Return Book</a>
 
-        <a class="btn btn-primary" href="/Book/Extend?id=@(ViewBag.Book.ID)">Extend Due Date</a>
+        <a class="btn btn-primary" href="/Book/Extend?bookID=@(ViewBag.Book.ID)">Extend Due Date</a>
 
         <a class="btn btn-danger" href="/Book/Delete?id=@(ViewBag.Book.ID)">Delete Book</a>
 
@@ -36,7 +37,7 @@
     }
     else
     {
-        <a class="btn btn-warning" href="/Book/Borrow?BookID=@(ViewBag.Book.ID)">Create Borrow</a>
+        <a class="btn btn-warning" href="/Book/Borrow?bookID=@(ViewBag.Book.ID)">Create Borrow</a>
         @*<h1>Details</h1>
         <p>Book has not been borrowed. You want to c <a href="/Book/List">Click here to return to the book list</a>.</p>*@
     }

@@ -227,7 +227,7 @@ namespace BookASPAssignment.Migrations
                     b.Property<int>("ExtentionCount")
                         .HasColumnType("int(10)");
 
-                    b.Property<DateTime>("ReturnedDate")
+                    b.Property<DateTime?>("ReturnedDate")
                         .HasColumnType("date");
 
                     b.HasKey("ID");

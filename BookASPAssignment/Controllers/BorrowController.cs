@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using System.Linq;
 using System.Threading.Tasks;
 using BookASPAssignment.Models;
@@ -42,15 +41,18 @@ namespace BookASPAssignment.Controllers
 
                 Borrow extendBorrow = context.Borrows.Where(x => x.BookID == int.Parse(bookID)).SingleOrDefault();
                 extendBorrow.ExtentionCount++;
-                extendBorrow.DueDate.AddDays(7);
+                extendBorrow.DueDate = extendBorrow.DueDate.AddDays(7);
                 context.SaveChanges();
             }
         }
     public static void ReturnBorrowByID(string bookID)
     {
-        using LibraryContext context = new LibraryContext();
-        Borrow savedObject = context.Borrows.Where(x => x.BookID == int.Parse(bookID)).LastOrDefault();
-        savedObject.ReturnedDate = DateTime.Today;
+            using (LibraryContext context = new LibraryContext())
+            {
+                Borrow returnBorrow = context.Borrows.Where(x => x.BookID == int.Parse(bookID)).SingleOrDefault();
+                returnBorrow.ReturnedDate = DateTime.Today;            context.SaveChanges();
+            }
+                
     }
 
     public static void CreateBorrow(string bookID)
@@ -64,7 +66,7 @@ namespace BookASPAssignment.Controllers
                     {
                         BookID = int.Parse(bookID),
                         CheckedOutDate = DateTime.Today.AddDays(0),
-                        //ReturnedDate = DateTime.Parse(null),
+                      
                         DueDate = DateTime.Today.AddDays(14)
                     });
                     context.SaveChanges();
