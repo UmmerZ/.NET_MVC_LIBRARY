@@ -40,7 +40,7 @@ namespace BookASPAssignment.Controllers
             return View();
         }
 
-        public IActionResult List(string filter)
+        public IActionResult List(String filter)
         {
             if (filter == "overduedbooks")
             {
@@ -57,7 +57,7 @@ namespace BookASPAssignment.Controllers
         }
         /*********************************************************************
          */
-        public static List<Book> GetOverDueBooks(String filter)
+        public static List<Book> GetOverDueBooks(string filter)
         {
             List<Book> results;
             using (LibraryContext context = new LibraryContext())
@@ -121,7 +121,7 @@ namespace BookASPAssignment.Controllers
             int parsedID = 0;
 
             id = id != null ? id.Trim() : null;
-            title = title != null ? title.Trim() : null;
+            title = title != null ? title.Trim().ToLower() : null;
             authorID = authorID != null ? authorID.Trim() : null;
 
             //ValidationException exception = new ValidationException();
@@ -130,7 +130,7 @@ namespace BookASPAssignment.Controllers
                 context.Books.Add(new Book()
                 {
                     ID = int.Parse(id),
-                    Title = title,
+                    Title = title.Trim().ToLower(),
                     PublicationDate = DateTime.Parse(publicationDate),
                    
                     AuthorID = int.Parse(authorID)
@@ -139,16 +139,6 @@ namespace BookASPAssignment.Controllers
             }
                 
             
-        }
-        public List<Borrow> GetOverDueBooks()
-        {
-            List<Borrow> results;
-            using (LibraryContext context = new LibraryContext())
-            {
-                DateTime today = DateTime.Now;
-                results = context.Borrows.Where(x => x.DueDate > today).ToList();
-            }
-            return results;
         }
 
         public List<Book> GetBooks()
