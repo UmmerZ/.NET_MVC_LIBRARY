@@ -256,14 +256,15 @@ namespace BookASPAssignment.Models
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName(keyBorrow);
                 entity.HasData(
-                    
+
                     new Borrow()
                     {
                         ID = -1,
                         BookID = -1,
                         CheckedOutDate = new DateTime(2019, 12, 25),
                         ReturnedDate = new DateTime(2020, 02, 02),
-                        DueDate = new DateTime(2020, 11, 17)
+                        DueDate = new DateTime(2020, 11, 17),
+                        ExtentionCount = 0
                     },
                     new Borrow()
                     {
@@ -271,7 +272,8 @@ namespace BookASPAssignment.Models
                         BookID = -2,
                         CheckedOutDate = new DateTime(2019, 12, 25),
                         ReturnedDate = new DateTime(2020, 02, 02),
-                        DueDate = new DateTime(2020, 11, 17)
+                        DueDate = new DateTime(2020, 11, 17),
+                        ExtentionCount = 0
                     },
                     new Borrow()
                     {
@@ -279,7 +281,8 @@ namespace BookASPAssignment.Models
                         BookID = -3,
                         CheckedOutDate = new DateTime(2020, 07, 21),
                         ReturnedDate = new DateTime(2020, 02, 02),
-                        DueDate = new DateTime(2020, 11, 17)
+                        DueDate = new DateTime(2020, 11, 17),
+                        ExtentionCount = 0
                     },
                      new Borrow()
                      {
@@ -287,7 +290,8 @@ namespace BookASPAssignment.Models
                          BookID = -4,
                          CheckedOutDate = new DateTime(2020, 07, 21),
                          ReturnedDate = new DateTime(2020, 02, 02),
-                         DueDate = new DateTime(2020, 11, 17)
+                         DueDate = new DateTime(2020, 11, 17),
+                         ExtentionCount = 0
                      },
                       new Borrow()
                       {
@@ -295,7 +299,8 @@ namespace BookASPAssignment.Models
                           BookID = -5,
                           CheckedOutDate = new DateTime(2019, 12, 25),
                           ReturnedDate = new DateTime(2020, 02, 02),
-                          DueDate = new DateTime(2020, 11, 17)
+                          DueDate = new DateTime(2020, 11, 17),
+                          ExtentionCount = 0
                       },
                        new Borrow()
                        {
@@ -303,7 +308,8 @@ namespace BookASPAssignment.Models
                            BookID = -6,
                            CheckedOutDate = new DateTime(2020, 07, 21),
                            ReturnedDate = new DateTime(2020, 02, 02),
-                           DueDate = new DateTime(2020, 11, 30)
+                           DueDate = new DateTime(2020, 11, 30),
+                           ExtentionCount = 0
                        },
                         new Borrow()
                         {
@@ -311,14 +317,16 @@ namespace BookASPAssignment.Models
                             BookID = -7,
                             CheckedOutDate = new DateTime(2020, 07, 21),
                             ReturnedDate = new DateTime(2020, 02, 02),
-                            DueDate = new DateTime(2020, 11, 30)
+                            DueDate = new DateTime(2020, 11, 30),
+                            ExtentionCount = 0
                         }, new Borrow()
                         {
                             ID = -8,
                             BookID = -8,
                             CheckedOutDate = new DateTime(2020, 07, 21),
                             ReturnedDate = new DateTime(2020, 02, 02),
-                            DueDate = new DateTime(2020, 11, 17)
+                            DueDate = new DateTime(2020, 11, 17),
+                            ExtentionCount = 0
                         },
                          new Borrow()
                          {
@@ -326,7 +334,8 @@ namespace BookASPAssignment.Models
                              BookID = -9,
                              CheckedOutDate = new DateTime(2020, 07, 21),
                              ReturnedDate = new DateTime(2020, 02, 02),
-                             DueDate = new DateTime(2020, 11, 30)
+                             DueDate = new DateTime(2020, 11, 30),
+                             ExtentionCount = 1
                          },
                           new Borrow()
                           {
@@ -334,7 +343,8 @@ namespace BookASPAssignment.Models
                               BookID = -10,
                               CheckedOutDate = new DateTime(2020, 07, 21),
                               ReturnedDate = new DateTime(2020, 02, 02),
-                              DueDate = new DateTime(2020, 11, 17)
+                              DueDate = new DateTime(2020, 11, 17),
+                              ExtentionCount = 0
                           },
                            new Borrow()
                            {
@@ -342,7 +352,8 @@ namespace BookASPAssignment.Models
                                BookID = -12,
                                CheckedOutDate = new DateTime(2020, 07, 21),
                                ReturnedDate = new DateTime(2020, 02, 02),
-                               DueDate = new DateTime(2020, 11, 17)
+                               DueDate = new DateTime(2020, 11, 17),
+                               ExtentionCount = 0
                            },
                             new Borrow()
                             {
@@ -350,7 +361,8 @@ namespace BookASPAssignment.Models
                                 BookID = -13,
                                 CheckedOutDate = new DateTime(2020, 07, 21),
                                 ReturnedDate = new DateTime(2020, 02, 02),
-                                DueDate = new DateTime(2020, 11, 17)
+                                DueDate = new DateTime(2020, 11, 17),
+                                ExtentionCount = 0
                             },
                              new Borrow()
                              {
@@ -358,7 +370,8 @@ namespace BookASPAssignment.Models
                                  BookID = -11,
                                  CheckedOutDate = new DateTime(2020, 07, 21),
                                  ReturnedDate = new DateTime(2020, 02, 02),
-                                 DueDate = new DateTime(2020, 11, 17)
+                                 DueDate = new DateTime(2020, 11, 17),
+                                 ExtentionCount = 3
                              },
                              new Borrow()
                              {
@@ -366,7 +379,8 @@ namespace BookASPAssignment.Models
                                  BookID = -15,
                                  CheckedOutDate = new DateTime(2020, 07, 21),
                                  ReturnedDate = new DateTime(2020, 02, 02),
-                                 DueDate = new DateTime(2020, 11, 17)
+                                 DueDate = new DateTime(2020, 11, 17),
+                                 ExtentionCount = 0
                              },
                              new Borrow()
                              {
@@ -374,13 +388,14 @@ namespace BookASPAssignment.Models
                                  BookID = -12,
                                  CheckedOutDate = new DateTime(2020, 07, 21),
                                  ReturnedDate = new DateTime(2020, 02, 02),
-                                 DueDate = new DateTime(2020, 11, 17)
+                                 DueDate = new DateTime(2020, 11, 17),
+                                 ExtentionCount = 0
                              }
 
 
 
 
-  ); ; 
+  )  ; 
             });
         }
     }
