@@ -25,7 +25,7 @@
             <p>Returned Date: @((borrow.ReturnedDate == null ? "Not Returned" : ((DateTime)borrow.ReturnedDate).ToLongDateString()))</p>
             <p>Number of Extensions Given: @(borrow.ExtentionCount)</p>
 
-            if(borrow.ReturnedDate == null)
+            if(borrow.ReturnedDate == null || borrow.ReturnedDate < DateTime.Now)
             {
                 <div class="alert alert-dark" >This Book Cannot be Borrowed as it has not been returned yet!</div>
             }

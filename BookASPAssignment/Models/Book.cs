@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace BookASPAssignment.Models
 {  [Table("book")]
     public class Book
@@ -22,6 +23,7 @@ namespace BookASPAssignment.Models
 
 
         [Column(TypeName = "varchar(100)")]
+
         public string Title { get; set; }
 
 

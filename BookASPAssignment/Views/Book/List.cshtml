@@ -11,7 +11,7 @@
 </form>
 @if (ViewBag.Books != null && ViewBag.Books.Count > 0)
 {
-    <table class=" table">
+    <table class=" table table-bordered">
         <tr>
             <th>ID</th>
             <th>Title</th>
@@ -36,7 +36,9 @@
         }
         else
         {
-            <td>NA</td>
+            <td>Available</td>
+            <td>Not Applicable</td>
+            <td>Not Applicable</td>
         }
     </tr>
         }

@@ -9,11 +9,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.VisualBasic;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
+using BookASPAssignment.Models.Exceptions;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace BookASPAssignment.Controllers
 {
     public class BookController : Controller
     {
+        
+
         public IActionResult Index()
         {
             return RedirectToAction("List");
@@ -21,18 +25,23 @@ namespace BookASPAssignment.Controllers
 
         public IActionResult Create(string id, string title, string authorID, string publicationDate)
         {
-            if (id != null && title != null && authorID != null && publicationDate != null)
+            if (Request.Query.Count > 0)
             {
                 try
                 {
                     CreateBook(id , title, publicationDate, authorID);
-                    ViewBag.SuccessfulCreation = true;
-                    ViewBag.Status = $"Successfully added book ID {id}";
+                    ViewBag.Message = $"Successfully added book  {title}";
                 }
-                catch (Exception e)
+                catch (ValidationException e)
                 {
-                    ViewBag.SuccessfulCreation = false;
-                    ViewBag.Status = $"An error occured. {e.Message}";
+                    ViewBag.ID = id;
+                    ViewBag.Title = title;
+                    ViewBag.PublicationDate = publicationDate;
+                    ViewBag.AuthorID = authorID;
+                    
+                    ViewBag.Message = "There is a Problem with the Submission. Check Below.";
+                    ViewBag.Exception = e;
+                    ViewBag.Error = true;
                 }
             }
             ViewBag.Authors = AuthorsController.GetAuthors();
@@ -118,19 +127,73 @@ namespace BookASPAssignment.Controllers
 
         public void CreateBook(string id, string title, string publicationDate, string authorID)
         {
-            int parsedID = 0;
+            
+            ValidationException exception = new ValidationException();
 
             id = id != null ? id.Trim() : null;
-            title = title != null ? title.Trim().ToLower() : null;
+            title = title != null ? title.Trim().ToUpper() : null;
             authorID = authorID != null ? authorID.Trim() : null;
 
-            //ValidationException exception = new ValidationException();
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                exception.ValidationExceptions.Add(new Exception(" ID Not Provided"));
+            }
+            if (id.Length > 10)
+            {
+                exception.ValidationExceptions.Add(new Exception("The Book ID Cannot be more than length of 10 !"));
+            }
+
+            
+            /**********************************************************
+            * Will throw Exception if No Title Provided
+            * *******************************************************/
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                exception.ValidationExceptions.Add(new Exception("Name Not Provided"));
+            }
+
+            /**********************************************************
+             * Will throw Exception if Publication Date is in Future
+             * *******************************************************/
+           if (DateTime.Parse(publicationDate) > DateTime.Now )
+            {
+                exception.ValidationExceptions.Add(new Exception("Publication Date Cannot be in future!"));
+            }
+
+            
             using (LibraryContext context = new LibraryContext())
             {
+                
+                
+                
+
+                
+                if(context.Books.Any(x => x.ID == int.Parse(id)))
+                {
+                    //IF ID Already Exists.
+                    exception.ValidationExceptions.Add(new Exception("The ID you Provided already exists!"));
+                }
+                   //IF TItle Already Exists to the Author.
+                if (context.Books.Where(x => x.AuthorID == int.Parse(authorID)).Any(x => x.Title == title.Trim().ToUpper()))
+                {
+                    exception.ValidationExceptions.Add(new Exception("The Book Title already exists with that Author!"));
+                 }
+
+                if (title.Length > 100)
+                {
+                    exception.ValidationExceptions.Add(new Exception("The Book Title Cannot be more than 100 Charectors!"));
+                }
+                
+
+
+                if (exception.ValidationExceptions.Count > 0)
+                {
+                    throw exception;
+                }
                 context.Books.Add(new Book()
                 {
                     ID = int.Parse(id),
-                    Title = title.Trim().ToLower(),
+                    Title = title.Trim().ToUpper(),
                     PublicationDate = DateTime.Parse(publicationDate),
                    
                     AuthorID = int.Parse(authorID)
@@ -150,6 +213,7 @@ namespace BookASPAssignment.Controllers
             }
           return results;
         }
+        // Getting a specific by their IDs
         public Book GetBookByID(string id)
         {
             using (LibraryContext context = new LibraryContext())
@@ -157,7 +221,7 @@ namespace BookASPAssignment.Controllers
                 return context.Books.Where(x => x.ID == int.Parse(id)).Include(x => x.Author).Include(x => x.Borrows).SingleOrDefault();
             }
         }
-
+        //Taking the Method from  the Borrow Controller
         public void ExtendDueDateForBookByID(string bookID)
         {
             BorrowController.ExtendDueDateForBorrowByID(bookID);
@@ -168,6 +232,7 @@ namespace BookASPAssignment.Controllers
             BorrowController.ReturnBorrowByID(bookID);
         }
 
+        //Method used to Delete a Book using its ID
         public void DeleteBookByID(string id)
         {
             using (LibraryContext context = new LibraryContext())
@@ -176,7 +241,7 @@ namespace BookASPAssignment.Controllers
                 context.SaveChanges();
             }
         }
-        
+     
 
     }
 }

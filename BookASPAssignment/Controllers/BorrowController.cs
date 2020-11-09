@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.VisualBasic;
 using Microsoft.EntityFrameworkCore;
+using BookASPAssignment.Models.Exceptions;
+
 namespace BookASPAssignment.Controllers
 { 
     public class BorrowController : Controller
@@ -18,20 +20,27 @@ namespace BookASPAssignment.Controllers
     }
     public IActionResult Create(string bookID, string checkedOutDate, string returnedDate)
         {
-            try
+            if (Request.Query.Count > 0)
             {
-                CreateBorrow(bookID);
-                ViewBag.SuccessfulCreation = true;
-                ViewBag.Status = $"Successfully added book ID {bookID}";
-            }
-            catch (Exception e)
-            {
-                ViewBag.SuccessfulCreation = false;
-                ViewBag.Status = $"An error occured. {e.Message}";
-            }
 
+                try
+                {
+                    CreateBorrow(bookID);
+                   
+                    ViewBag.Message = $"Borrow Successful for Book {bookID}";
+                   
+                }
+                catch (ValidationException e)
+                {
+                    ViewBag.CheckedOutDate = checkedOutDate;
+                    ViewBag.ReturnedDate = returnedDate;
+                    ViewBag.Message = "There is a problem with the Submission.";
+                    ViewBag.Exception = e;
+                    ViewBag.Error = true;
+                }
 
-            return View();
+            }
+            return Redirect("Book/Details");
     }
 
         public static void ExtendDueDateForBorrowByID(string bookID)
@@ -59,14 +68,18 @@ namespace BookASPAssignment.Controllers
     {
         using (LibraryContext context = new LibraryContext())
         {
+                ValidationException exception = new ValidationException();
+
+                
 
                 if (context.Borrows.Any(x => x.BookID != int.Parse(bookID)))
                 {
+
+                    
                     context.Borrows.Add(new Borrow()
                     {
                         BookID = int.Parse(bookID),
-                        CheckedOutDate = DateTime.Today.AddDays(0),
-                      
+                        CheckedOutDate = DateTime.Today,
                         DueDate = DateTime.Today.AddDays(14)
                     });
                     context.SaveChanges();
@@ -79,13 +92,6 @@ namespace BookASPAssignment.Controllers
             }
     }
       
-        //        public static Borrow GetBorrowByID(string bookID)
-        //        { 
-        //            using (LibraryContext context = new LibraryContext())
-        //            {
-        //                return context.Borrows.Where(x => x.BookID == int.Parse(bookID)).SingleOrDefault();
-        //            }
-
-        //        }
+    
     }
 }
