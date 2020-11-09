@@ -28,6 +28,7 @@ namespace BookASPAssignment.Models
         [Column(TypeName = "date")]
         public DateTime DueDate { get; set; }
 
+        [Required]
         [Column(TypeName = "int(10)")]
         public int ExtentionCount { get; set; }
 
