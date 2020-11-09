@@ -40,10 +40,32 @@ namespace BookASPAssignment.Controllers
             return View();
         }
 
-        public IActionResult List()
+        public IActionResult List(string filter)
         {
-              ViewBag.Books = GetBooks();
-              return View();
+            if (filter == "overduedbooks")
+            {
+                ViewBag.Books = GetOverDueBooks(filter);
+                ViewBag.Filter = true;
+            }
+            else
+            {
+                ViewBag.Books = GetBooks();
+                ViewBag.Filter = false;
+            }
+           
+            return View();
+        }
+        /*********************************************************************
+         */
+        public static List<Book> GetOverDueBooks(String filter)
+        {
+            List<Book> results;
+            using (LibraryContext context = new LibraryContext())
+            {
+                List<Book> overdueBooks = context.Borrows.Include(x => x.Book).Where(y => y.DueDate < DateTime.Now).Select(z => z.Book).ToList();
+                results = context.Books.Include(x => x.Author).Include(x => x.Borrows).Where(x => overdueBooks.Contains(x)).ToList();
+            }
+            return results;
         }
 
         public IActionResult Details(string id)

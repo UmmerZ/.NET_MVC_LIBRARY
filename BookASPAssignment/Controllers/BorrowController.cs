@@ -78,13 +78,14 @@ namespace BookASPAssignment.Controllers
 
             }
     }
-//        public static Borrow GetBorrowByID(string bookID)
-//        { 
-//            using (LibraryContext context = new LibraryContext())
-//            {
-//                return context.Borrows.Where(x => x.BookID == int.Parse(bookID)).SingleOrDefault();
-//            }
-            
-//        }
-}
+      
+        //        public static Borrow GetBorrowByID(string bookID)
+        //        { 
+        //            using (LibraryContext context = new LibraryContext())
+        //            {
+        //                return context.Borrows.Where(x => x.BookID == int.Parse(bookID)).SingleOrDefault();
+        //            }
+
+        //        }
+    }
 }

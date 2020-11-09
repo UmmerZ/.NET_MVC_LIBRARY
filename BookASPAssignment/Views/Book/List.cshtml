@@ -4,8 +4,12 @@
 }
 
 <h1>List</h1>
-
-@if (ViewBag.Books.Count > 0)
+<form action="/Book/List" method="get">
+    <label for="filter">Filter to OverDued Books</label>
+    <input type="checkbox" id="filter" name="filter" value="overduedbooks" @(ViewBag.Filter ? "checked" : "") />
+    <input type="submit" value="Go!" />
+</form>
+@if (ViewBag.Books != null && ViewBag.Books.Count > 0)
 {
     <table class=" table">
         <tr>
