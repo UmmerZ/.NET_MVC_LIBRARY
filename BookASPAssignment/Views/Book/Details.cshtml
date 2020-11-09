@@ -10,7 +10,7 @@
 {
     <h1>Book Details: </h1>
 
-    <p>Book ID :@(ViewBag.Book.ID)</p>
+    <p>Book ID: @(ViewBag.Book.ID)</p>
     <p>Title: @(ViewBag.Book.Title)</p>
     <p>Author: @(ViewBag.Book.Author.Name)</p>
     <p>Publication Date: @(((DateTime)ViewBag.Book.PublicationDate).ToLongDateString())</p>
@@ -23,9 +23,10 @@
             <p>Due Date: @(((DateTime)borrow.DueDate).ToLongDateString())</p>
 
             <p>Returned Date: @((borrow.ReturnedDate == null ? "Not Returned" : ((DateTime)borrow.ReturnedDate).ToLongDateString()))</p>
+            <p>Number of Extensions Given: @(borrow.ExtentionCount)</p>
         }
 
-       
+
         <a class="btn btn-success" href="/Book/Return?bookID=@(ViewBag.Book.ID)">Return Book</a>
 
         <a class="btn btn-primary" href="/Book/Extend?bookID=@(ViewBag.Book.ID)">Extend Due Date</a>
@@ -39,6 +40,6 @@
     {
         <a class="btn btn-warning" href="/Book/Borrow?bookID=@(ViewBag.Book.ID)">Create Borrow</a>
         @*<h1>Details</h1>
-        <p>Book has not been borrowed. You want to c <a href="/Book/List">Click here to return to the book list</a>.</p>*@
+            <p>Book has not been borrowed. You want to c <a href="/Book/List">Click here to return to the book list</a>.</p>*@
     }
 } 
